@@ -12,12 +12,16 @@ $userName = "$($FirstName.substring(0,1))$LastName"
 $errorPreferenceBefore = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue'
 
+## Try/Catch - If an error happens in line 16-21, throw it into a null catch block which will show no red text in the output
+try {
 if (Get-ADUser $userName) {
-    $userName = "($FirstName.SubString(0,1))$MiddleInitial$LastName"
+    $userName = "$($FirstName.SubString(0,1))$MiddleInitial$LastName"
     if (Get-ADUser $userName) {
         Write-Warning "No acceptable username schema could be created"
         return        
     }
+}
+} catch {
 }
 
 ## Create the user account
@@ -40,4 +44,8 @@ $NewUserParams = @{
     'ChangePasswordAtLogon' = $true
 }
 
+New-ADUser @NewUserParams
+
 ## Add the user account to the company standard group
+
+Add-ADGroupMember -Identity $DefaultGroup -Members $userName
