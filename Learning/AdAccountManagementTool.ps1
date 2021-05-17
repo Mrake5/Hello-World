@@ -19,10 +19,10 @@ function New-EmployeeOnboardUser {
     #>
     [CmdletBinding()]
     param (
-        [string]$FirstName
-        [string]$MiddleInitial
-        [string]$LastName
-        [string]$Location = 'OU = Home Users'
+        [string]$FirstName,
+        [string]$MiddleInitial,
+        [string]$LastName,
+        [string]$Location = 'OU = Home Users',
         [string]$Title
     )
     process {
@@ -77,7 +77,6 @@ New-ADUser @NewUserParams
 Add-ADGroupMember -Identity $DefaultGroup -Members $userName
     }
 }
-
 function New-EmployeeOnboardComputer {
     <#
     .SYNOPSIS
@@ -94,7 +93,7 @@ function New-EmployeeOnboardComputer {
     #>
     [CmdletBinding()]
     param (
-        [string]$computerName
+        [string]$computerName,
         [string]$Location = 'OU=Corporate Computers'
     )
     process {
